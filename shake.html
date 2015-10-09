@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>摇一摇荧光棒</title>
+
+<script type="text/javascript">
+var color = new Array('398306794d9bd046', '935fc7407f2d9a23', 'b5ff76feb4fe4093', 'bedbfe98f4474276', '3ddaf51f4bcf9359', '9a7921b5ff269ff5', '36e700ce42d709d4', 'f5c31533e9386e3c', 'b55bfcc79adb41af', '#22DDDD', '#CC33AE', '#A25E6B', '#66FF00');
+
+function isWeiXin() {
+	var ua = window.navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+		return true
+	} else {
+		return false
+	}
+}
+function shake() {
+	if (window.DeviceMotionEvent) {
+		var speed = 20;
+		var x = y = z = lastX = lastY = lastZ = 0;
+		window.addEventListener('devicemotion', function() {
+			var acceleration = event.accelerationIncludingGravity;
+			x = acceleration.x;
+			y = acceleration.y;
+			if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed) {
+				document.getElementById('img').src = "http://i13.tietuku.com/" + color[Math.round(Math.random() * 10) % 9] + ".jpg"
+			}
+			lastX = x;
+			lastY = y
+		}, false)
+	}
+}
+function changeBg() {
+	document.getElementById('img').src = "http://i13.tietuku.com/" + color[Math.round(Math.random() * 10) % 9] + ".jpg"
+}
+window.onload = function() {
+	if (isWeiXin()) {
+		shake();
+		setInterval("changeBg()", 1500)
+	} else {
+		document.getElementById('wx').style.display = "inline";
+		document.getElementById('img').style.display = "none"
+	}
+}
+
+</script>
+
+</head>
+<body style="margin:0px;padding: 0px;overflow:hidden;">
+
+<div style="width:100%;height:100%;margin:0px;padding: 0px;overflow:hidden">
+ <img id="img" style="width:100%;height:100%;display:block;border:none;overflow:hidden;" src="http://i13.tietuku.com/1c6a50dea7dd3482.jpg"/></div>
+ <h1 id="wx" style="text-align:center;display:none;overflow:hidden;">对不起，请在微信中打开</h1>
+</body>
+</html>
